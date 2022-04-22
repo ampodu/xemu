@@ -1686,12 +1686,10 @@ protected:
 
 public:
     bool is_open;
-    bool should_prompt_auto_update_selection;
 
     AutoUpdateWindow()
     {
         is_open = false;
-        should_prompt_auto_update_selection = false;
     }
 
     ~AutoUpdateWindow()
