@@ -19,7 +19,7 @@ MIRROR = 'http://nue.de.packages.macports.org/macports/packages'
 
 class LibInstaller:
 	DARWIN_TARGET_X64="darwin_17" # macOS 10.13
-	DARWIN_TARGET_ARM64="darwin_20" # macOS 11.x
+	DARWIN_TARGET_ARM64="darwin_21" # macOS 12.x
 
 	def __init__(self, arch):
 		self._queue = []
