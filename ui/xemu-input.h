@@ -82,10 +82,8 @@ typedef struct ControllerState {
 
     enum controller_input_device_type type;
     const char         *name;
+    bool                rumble_enabled;
     SDL_GameController *sdl_gamecontroller; // if type == INPUT_DEVICE_SDL_GAMECONTROLLER
-    SDL_Haptic         *sdl_haptic;
-    SDL_HapticEffect    sdl_haptic_effect;
-    int                 sdl_haptic_effect_id;
     SDL_Joystick       *sdl_joystick;
     SDL_JoystickID      sdl_joystick_id;
     SDL_JoystickGUID    sdl_joystick_guid;
