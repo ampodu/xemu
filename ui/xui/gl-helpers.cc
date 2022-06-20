@@ -774,3 +774,19 @@ void SaveScreenshot(GLuint tex, bool flip)
         free(msg);
     }
 }
+
+void export_texture(ExportData *imagedata)
+{
+    char filename[13];
+    std::vector<uint8_t> pixels;
+    std::vector<uint8_t> png;
+
+    export_pgraph_data(imagedata);
+    snprintf(filename, sizeof(filename), "%lx", imagedata->vram_addr);
+    FILE *texture = fopen(filename, "wb");
+  
+    pixels.resize((unsigned long int)imagedata->texture);
+    fpng::fpng_encode_image_to_memory(pixels.data(), imagedata->width, imagedata->height, imagedata->bytes_per_pixel, png);
+    fwrite(png.data(), png.size(), 1, texture);
+    fclose(texture);            
+}

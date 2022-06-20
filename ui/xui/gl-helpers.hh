@@ -19,6 +19,7 @@
 #pragma once
 #include "common.hh"
 #include "../xemu-input.h"
+#include "hw/xbox/nv2a/texture_replacer.hh"
 
 class Fbo
 {
@@ -48,3 +49,4 @@ void RenderControllerPort(float frame_x, float frame_y, int i,
                           uint32_t port_color);
 void RenderFramebuffer(GLint tex, int width, int height, bool flip);
 void SaveScreenshot(GLuint tex, bool flip);
+void export_texture(ExportData *imagedata);

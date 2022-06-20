@@ -20,6 +20,7 @@
  */
 
 #include "nv2a_int.h"
+#include "texture_replacer.hh"
 
 #include "s3tc.h"
 #include "ui/xemu-settings.h"
@@ -5663,6 +5664,20 @@ static void surface_copy_expand(uint8_t *out, uint8_t *in, unsigned int width,
         out += out_pitch;
     }
 }
+
+extern void export_pgraph_data(ExportData *imagedata)
+{
+    NV2AState *d = g_nv2a;
+    SurfaceBinding *surface; //!See what should use to initialize surface.
+    PGRAPHState *pg = &d->pgraph;
+
+    glReadPixels(pg->surface_shape.clip_x, pg->surface_shape.clip_y, pg->surface_shape.clip_width, pg->surface_shape.clip_height, 
+            surface->fmt.gl_format, surface->fmt.gl_type, imagedata->texture);
+    imagedata->width = surface->width;
+    imagedata->height = surface->height;
+    imagedata->bytes_per_pixel = surface->fmt.bytes_per_pixel;
+    imagedata->vram_addr = surface->vram_addr;
+} 
 
 static void pgraph_upload_surface_data(NV2AState *d, SurfaceBinding *surface,
                                        bool force)

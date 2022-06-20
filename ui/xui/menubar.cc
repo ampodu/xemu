@@ -27,6 +27,8 @@
 #include "compat.hh"
 #include "update.hh"
 #include "../xemu-os-utils.h"
+#include "hw/xbox/nv2a/texture_replacer.hh"
+#include "gl-helpers.hh"
 
 extern float g_main_menu_height; // FIXME
 
@@ -68,6 +70,11 @@ void ProcessKeyboardShortcuts(void)
 
     if (ImGui::IsKeyPressed(ImGuiKey_F12)) {
         ActionScreenshot();
+    }
+
+    if(ImGui::IsKeyPressed(ImGuiKey_C)) {
+        ExportData Data;
+        export_texture(&Data);
     }
 
 #if defined(DEBUG_NV2A_GL) && defined(CONFIG_RENDERDOC)
