@@ -5665,7 +5665,7 @@ static void surface_copy_expand(uint8_t *out, uint8_t *in, unsigned int width,
     }
 }
 
-extern void export_pgraph_data(ExportData *imagedata)
+void export_pgraph_data(ExportData *imagedata)
 {
     NV2AState *d = g_nv2a;
     SurfaceBinding *surface; //!See what should use to initialize surface.

@@ -19,7 +19,7 @@
 #pragma once
 #include "common.hh"
 #include "../xemu-input.h"
-#include "hw/xbox/nv2a/texture_replacer.hh"
+#include "../hw/xbox/nv2a/texture_replacer.hh"
 
 class Fbo
 {

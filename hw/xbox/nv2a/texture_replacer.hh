@@ -9,6 +9,10 @@ typedef struct ExportData
   unsigned long int vram_addr;
 } ExportData;
 
-extern void export_pgraph_data(ExportData *imagedata);
+#ifdef __cplusplus
+extern "C" {
+void export_pgraph_data(ExportData *imagedata);
+}
+#endif
 
 #endif /* E217C601_F080_41FD_8FB6_BFB396974557 */
