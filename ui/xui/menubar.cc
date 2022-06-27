@@ -181,6 +181,11 @@ void ShowMainMenu()
 
             ImGui::MenuItem("Report Compatibility...", NULL,
                             &compatibility_reporter_window.is_open);
+
+             if (ImGui::MenuItem("Create GitHub Issue...", NULL)) {
+                xemu_open_web_browser("https://github.com/mborgerson/xemu/issues/new\?assignees=\\&labels=bug%2Ctriage\\&template=title-issue.yml\\&title=Title+Name%3A+Short+Description");
+            }
+
 #if defined(_WIN32)
             ImGui::MenuItem("Check for Updates...", NULL, &update_window.is_open);
 #endif
