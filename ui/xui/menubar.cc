@@ -95,7 +95,7 @@ void ShowMainMenu()
 
             ImGui::Separator();
 
-            if (ImGui::MenuItem("Settings")) g_main_menu.ShowGeneral();
+            if (ImGui::MenuItem("Settings...")) g_main_menu.ShowGeneral();
 
             ImGui::Separator();
 
