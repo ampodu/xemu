@@ -448,6 +448,9 @@
 #       define NV_PGRAPH_CONTROL_2_STENCIL_OP_V_INCR                7
 #       define NV_PGRAPH_CONTROL_2_STENCIL_OP_V_DECR                8
 #define NV_PGRAPH_CONTROL_3                              0x00001958
+#   define NV_PGRAPH_CONTROL_3_SHADEMODE                        (1 << 7)
+#       define NV_PGRAPH_CONTROL_3_SHADEMODE_FLAT                   0
+#       define NV_PGRAPH_CONTROL_3_SHADEMODE_SMOOTH                 1
 #   define NV_PGRAPH_CONTROL_3_FOGENABLE                        (1 << 8)
 #   define NV_PGRAPH_CONTROL_3_FOG_MODE                         0x00070000
 #       define NV_PGRAPH_CONTROL_3_FOG_MODE_LINEAR                  0
@@ -974,6 +977,9 @@
 #       define NV097_SET_STENCIL_OP_V_INVERT                      0x150A
 #       define NV097_SET_STENCIL_OP_V_INCR                        0x8507
 #       define NV097_SET_STENCIL_OP_V_DECR                        0x8508
+#   define NV097_SET_SHADE_MODE                               0x0000037C
+#       define NV097_SET_SHADE_MODE_V_FLAT                        0x1D00
+#       define NV097_SET_SHADE_MODE_V_SMOOTH                      0x1D01
 #   define NV097_SET_POLYGON_OFFSET_SCALE_FACTOR              0x00000384
 #   define NV097_SET_POLYGON_OFFSET_BIAS                      0x00000388
 #   define NV097_SET_FRONT_POLYGON_MODE                       0x0000038C
@@ -1241,6 +1247,8 @@
 #   define NV097_SET_SHADER_STAGE_PROGRAM                     0x00001E70
 #   define NV097_SET_DOT_RGBMAPPING                           0X00001E74
 #   define NV097_SET_SHADER_OTHER_STAGE_INPUT                 0x00001E78
+#   define NV097_SET_TRANSFORM_DATA                           0x00001E80
+#   define NV097_LAUNCH_TRANSFORM_PROGRAM                     0x00001E90
 #   define NV097_SET_TRANSFORM_EXECUTION_MODE                 0x00001E94
 #       define NV097_SET_TRANSFORM_EXECUTION_MODE_MODE            0x00000003
 #       define NV097_SET_TRANSFORM_EXECUTION_MODE_RANGE_MODE      0xFFFFFFFC
