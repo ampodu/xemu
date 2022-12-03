@@ -502,7 +502,7 @@ void RenderController(float frame_x, float frame_y, uint32_t primary_color,
     uint32_t jewel_color = secondary_color;
 
     // Check to see if the guide button is pressed only when not remapping.
-    if (!is_remapping_active) {
+    if (!is_keyboard_remapping_active || !is_gamepad_remapping_active) {
         const uint32_t animate_guide_button_duration = 2000;
         if (state->buttons & CONTROLLER_BUTTON_GUIDE) {
             state->animate_guide_button_end = now + animate_guide_button_duration;
@@ -537,7 +537,7 @@ void RenderController(float frame_x, float frame_y, uint32_t primary_color,
     // The controller has alpha cutouts where the buttons are. Draw a surface
     // behind the buttons if they are activated
     // Do not highlight the buttons while remapping.
-    if (!is_remapping_active)
+    if (!is_keyboard_remapping_active || !is_gamepad_remapping_active)
     {
         for (int i = 0; i < 12; i++) {
             if (state->buttons & (1 << i)) {

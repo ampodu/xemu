@@ -38,7 +38,8 @@
 #include "../xemu-xbe.h"
 
 MainMenuScene g_main_menu;
-bool is_remapping_active = false;
+bool is_keyboard_remapping_active = false;
+bool is_gamepad_remapping_active = false;
 bool duplicate_found = false;
 int currently_remapping = 0;
 int already_mapped = 0;
@@ -269,26 +270,46 @@ void MainMenuInputView::Draw()
            &g_config.input.background_input_capture,
            "Capture even if window is unfocused (requires restart)");
 
-    //Interface and checks for keyboard remapping. 
-    //Remove focus on input window while binding to avoide moving inside the UI.
+    //Interface and checks for keyboard/controller remapping. 
+    //Remove focus on input for controller window while binding to avoide moving inside the UI.
     
-    if (ImGui::Button("Rebind Controls")) {
+    if (ImGui::Button("Rebind keyboard")) {
              currently_remapping = 0;
-             is_remapping_active = true;
+             is_keyboard_remapping_active = true;
+        }
+    
+    if (ImGui::Button("Rebind Controller")) {
+             currently_remapping = 0;
+             is_gamepad_remapping_active = true;
         }
 
-    const char *bindings[] = {"A", "B", "X", "Y", "DPAD LEFT", "DPAD UP", "DPAD RIGHT", "DPAD DOWN", "BACK", "START", 
+    const char *keyboard_bindings[] = {"A", "B", "X", "Y", "DPAD LEFT", "DPAD UP", "DPAD RIGHT", "DPAD DOWN", "BACK", "START", 
                               "WHITE", "BLACK", "LEFT STICK BUTTON", "RIGHT STICK BUTTON", "GUIDE", "LEFT STICK UP", 
                               "LEFT STICK LEFT", "LEFT STICK RIGHT", "LEFT STICK DOWN", "LEFT TRIGGER", "RIGHT STICK UP", 
                               "RIGHT STICK LEFT", "RIGHT STICK RIGHT", "RIGHT STICK DOWN", "RIGHT TRIGGER"};
+    
+    const char *controller_bindings[] = {"A", "B", "X", "Y", "DPAD LEFT", "DPAD UP", "DPAD RIGHT", "DPAD DOWN", "BACK", "START", 
+                              "LEFT SHUOULDER", "RIGHT SHOULDER", "LEFT STICK BUTTON", "RIGHT STICK BUTTON", "GUIDE", "LEFT TRIGGER",
+                              "RIGHT TRIGGER", "LEFT X AXIS", "LEFT Y AXIS", "RIGHT X AXIS", "LEFT Y AXIS"};
 
-    if (is_remapping_active) {
+    if (is_keyboard_remapping_active) {
         ImGui::SetKeyboardFocusHere(1);
-        ImGui::Text("Press the key you want to bind for: %s", bindings[currently_remapping]);
+        ImGui::Text("Press the key you want to bind for: %s", keyboard_bindings[currently_remapping]);
     }
 
-    if (duplicate_found) {
-        char *buf = g_strdup_printf("WARNING: Keybind already in use for: %s. Try another key.", bindings[already_mapped]);
+    if (is_gamepad_remapping_active) {
+        ImGui::Text("Press the key you want to bind for: %s", controller_bindings[currently_remapping]);
+    }
+
+    if (duplicate_found && is_keyboard_remapping_active) {
+        char *buf = g_strdup_printf("WARNING: Keybind already in use for: %s. Try another key.", keyboard_bindings[already_mapped]);
+        xemu_queue_notification(buf);
+        free(buf);
+        duplicate_found = false;
+    }
+
+    if (duplicate_found && is_gamepad_remapping_active) {
+        char *buf = g_strdup_printf("WARNING: Keybind already in use for: %s. Try another key.", controller_bindings[already_mapped]);
         xemu_queue_notification(buf);
         free(buf);
         duplicate_found = false;

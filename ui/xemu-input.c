@@ -95,6 +95,7 @@ static const char **port_index_to_settings_key_map[] = {
 };
 
 static int sdl_kbd_scancode_map[25];
+static int gamepad_scancodes[15];
 
 void xemu_input_init(void)
 {
@@ -298,9 +299,11 @@ void xemu_input_process_sdl_events(const SDL_Event *event)
         }
     } else if (event->type == SDL_CONTROLLERDEVICEREMAPPED) {
         DPRINTF("Controller Remapped: %d\n", event->cdevice.which);
-    } else if (is_remapping_active && event->type == SDL_KEYDOWN) {
+    } else if (is_keyboard_remapping_active && event->type == SDL_KEYDOWN) {
         xemu_input_keyboard_rebind(event);
-    }  
+    } else if (is_gamepad_remapping_active && event->type == SDL_CONTROLLERBUTTONDOWN) {
+        xemu_input_controller_rebind(event);
+    } 
 }
 
 void xemu_input_update_controller(ControllerState *state)
@@ -374,7 +377,7 @@ void xemu_input_keyboard_rebind(const SDL_Event *ev)
             
         if( (sdl_kbd_scancode_map[currently_remapping] < SDL_SCANCODE_UNKNOWN) || 
             (sdl_kbd_scancode_map[currently_remapping] >= SDL_NUM_SCANCODES) ) {
-            char *buf = g_strdup_printf("WARNING: Keyboard controller map scancode out of range (%d) : Disabled", 
+            char *buf = g_strdup_printf("WARNING: Keyboard map scancode out of range (%d) : Disabled", 
                                         sdl_kbd_scancode_map[currently_remapping]);
             xemu_queue_notification(buf);
             free(buf);
@@ -409,10 +412,94 @@ void xemu_input_keyboard_rebind(const SDL_Event *ev)
             g_config.input.keyboard_controller_scancode_map.rstick_right = sdl_kbd_scancode_map[22];
             g_config.input.keyboard_controller_scancode_map.rstick_down = sdl_kbd_scancode_map[23];
             g_config.input.keyboard_controller_scancode_map.rtrigger = sdl_kbd_scancode_map[24];
-            is_remapping_active = false;
+            is_keyboard_remapping_active = false;
         }
-         }
-    }  
+    }
+}
+
+void xemu_input_controller_rebind(const SDL_Event *ev)
+{
+    SDL_GameControllerButton sdl_button_map[15] = {
+        SDL_CONTROLLER_BUTTON_A,
+        SDL_CONTROLLER_BUTTON_B,
+        SDL_CONTROLLER_BUTTON_X,
+        SDL_CONTROLLER_BUTTON_Y,
+        SDL_CONTROLLER_BUTTON_DPAD_LEFT,
+        SDL_CONTROLLER_BUTTON_DPAD_UP,
+        SDL_CONTROLLER_BUTTON_DPAD_RIGHT,
+        SDL_CONTROLLER_BUTTON_DPAD_DOWN,
+        SDL_CONTROLLER_BUTTON_BACK,
+        SDL_CONTROLLER_BUTTON_START,
+        SDL_CONTROLLER_BUTTON_LEFTSHOULDER,
+        SDL_CONTROLLER_BUTTON_RIGHTSHOULDER,
+        SDL_CONTROLLER_BUTTON_LEFTSTICK,
+        SDL_CONTROLLER_BUTTON_RIGHTSTICK,
+        SDL_CONTROLLER_BUTTON_GUIDE
+    };
+
+    SDL_GameControllerAxis sdl_axis_map[6] = {
+        SDL_CONTROLLER_AXIS_TRIGGERLEFT,
+        SDL_CONTROLLER_AXIS_TRIGGERRIGHT,
+        SDL_CONTROLLER_AXIS_LEFTX,
+        SDL_CONTROLLER_AXIS_LEFTY,
+        SDL_CONTROLLER_AXIS_RIGHTX,
+        SDL_CONTROLLER_AXIS_RIGHTY,
+    };
+    
+    gamepad_scancodes[currently_remapping] = SDL_CONTROLLER_BUTTON_INVALID;
+
+    if(ev->type == SDL_CONTROLLERBUTTONDOWN) {
+        gamepad_scancodes[currently_remapping] = ev->cbutton.button;
+    } else if (ev->type == SDL_CONTROLLERAXISMOTION) {
+        gamepad_scancodes[currently_remapping] = ev->caxis.axis;
+    }
+        
+        //check for duplicated keybindings, if found, rebind that button.
+        for (size_t i = 0; i < currently_remapping; i++) {
+            if (gamepad_scancodes[currently_remapping] == gamepad_scancodes[i]) {
+                duplicate_found = true;
+                already_mapped = i;
+                currently_remapping--;
+                break;
+            }
+        }
+        
+        if( (gamepad_scancodes[currently_remapping] < SDL_CONTROLLER_BUTTON_INVALID) || 
+            (gamepad_scancodes[currently_remapping] >= SDL_CONTROLLER_BUTTON_MAX) ) {
+            char *buf = g_strdup_printf("WARNING: controller map scancode out of range (%d) : Disabled", 
+                                        gamepad_scancodes[currently_remapping]);
+            xemu_queue_notification(buf);
+            free(buf);
+            gamepad_scancodes[currently_remapping] = SDL_CONTROLLER_BUTTON_INVALID;
+    } 
+        currently_remapping++;
+
+        if(currently_remapping == 21){
+           sdl_button_map[0] = gamepad_scancodes[0];
+           sdl_button_map[1] = gamepad_scancodes[1];
+           sdl_button_map[2] = gamepad_scancodes[2];
+           sdl_button_map[3] = gamepad_scancodes[3];
+           sdl_button_map[4] = gamepad_scancodes[4];
+           sdl_button_map[5] = gamepad_scancodes[5];
+           sdl_button_map[6] = gamepad_scancodes[6];
+           sdl_button_map[7] = gamepad_scancodes[7];
+           sdl_button_map[8] = gamepad_scancodes[8];
+           sdl_button_map[9] = gamepad_scancodes[9];
+           sdl_button_map[10] = gamepad_scancodes[10];
+           sdl_button_map[11] = gamepad_scancodes[11];
+           sdl_button_map[12] = gamepad_scancodes[12];
+           sdl_button_map[13] = gamepad_scancodes[13];
+           sdl_button_map[14] = gamepad_scancodes[14];
+           sdl_axis_map[0]    = gamepad_scancodes[15];
+           sdl_axis_map[1]    = gamepad_scancodes[16];
+           sdl_axis_map[2]    = gamepad_scancodes[17];
+           sdl_axis_map[3]    = gamepad_scancodes[18];
+           sdl_axis_map[4]    = gamepad_scancodes[19];
+           sdl_axis_map[5]    = gamepad_scancodes[20];
+           is_gamepad_remapping_active = false;
+
+        }
+}
 
 void xemu_input_update_sdl_controller_state(ControllerState *state)
 {

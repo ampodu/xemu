@@ -97,7 +97,8 @@ typedef QTAILQ_HEAD(, ControllerState) ControllerStateList;
 extern ControllerStateList available_controllers;
 extern ControllerState *bound_controllers[4];
 
-extern bool is_remapping_active;
+extern bool is_keyboard_remapping_active;
+extern bool is_gamepad_remapping_active;
 extern bool duplicate_found;
 extern int currently_remapping;
 extern int already_mapped;
@@ -114,6 +115,7 @@ void xemu_input_update_sdl_kbd_controller_state(ControllerState *state);
 void xemu_input_update_sdl_controller_state(ControllerState *state);
 void xemu_input_update_rumble(ControllerState *state);
 void xemu_input_keyboard_rebind(const SDL_Event *ev);
+void xemu_input_controller_rebind(const SDL_Event *ev);
 ControllerState *xemu_input_get_bound(int index);
 void xemu_input_bind(int index, ControllerState *state, int save);
 int xemu_input_get_controller_default_bind_port(ControllerState *state, int start);
