@@ -296,7 +296,7 @@ void MainMenuInputView::Draw()
         ImGui::SetKeyboardFocusHere(1);
         ImGui::Text("Press the key you want to bind for: %s", keyboard_bindings[currently_remapping]);
     }
-
+    //!FIXME: Lock input focus from controller when rebinding.
     if (is_gamepad_remapping_active) {
         ImGui::Text("Press the key you want to bind for: %s", controller_bindings[currently_remapping]);
     }

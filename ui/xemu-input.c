@@ -446,8 +446,10 @@ void xemu_input_controller_rebind(const SDL_Event *ev)
         SDL_CONTROLLER_AXIS_RIGHTY,
     };
     
-    gamepad_scancodes[currently_remapping] = SDL_CONTROLLER_BUTTON_INVALID;
+    sdl_button_map[currently_remapping] = SDL_CONTROLLER_BUTTON_INVALID;
+    sdl_axis_map[currently_remapping]   = SDL_CONTROLLER_BUTTON_INVALID;
 
+    //!FIXME: Doesn't see triggers input and analog movements, only analog clicks are binded.
     if(ev->type == SDL_CONTROLLERBUTTONDOWN) {
         gamepad_scancodes[currently_remapping] = ev->cbutton.button;
     } else if (ev->type == SDL_CONTROLLERAXISMOTION) {
