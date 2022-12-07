@@ -153,7 +153,7 @@ protected:
                                     m_display_button,
                                     m_audio_button,
                                     m_network_button,
-                                    // m_snapshots_button,
+                                    m_snapshots_button,
                                     m_system_button,
                                     m_about_button;
     std::vector<MainMenuTabView*>   m_views;
@@ -162,7 +162,7 @@ protected:
     MainMenuDisplayView             m_display_view;
     MainMenuAudioView               m_audio_view;
     MainMenuNetworkView             m_network_view;
-    // MainMenuSnapshotsView        m_snapshots_view;
+    MainMenuSnapshotsView           m_snapshots_view;
     MainMenuSystemView              m_system_view;
     MainMenuAboutView               m_about_view;
 
@@ -174,7 +174,7 @@ public:
     void ShowDisplay();
     void ShowAudio();
     void ShowNetwork();
-    // void ShowSnapshots();
+    void showSnapshots();
     void ShowSystem();
     void ShowAbout();
     void SetNextViewIndexWithFocus(int i);

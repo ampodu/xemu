@@ -799,6 +799,11 @@ void MainMenuSystemView::Draw()
     }
 }
 
+void MainMenuSnapshotsView::Draw()
+{
+    SectionTitle("Save States");
+}
+
 MainMenuAboutView::MainMenuAboutView(): m_config_info_text{NULL}
 {}
 
@@ -929,8 +934,8 @@ MainMenuScene::MainMenuScene()
   m_display_button("Display",     ICON_FA_TV),
   m_audio_button("Audio",         ICON_FA_VOLUME_HIGH),
   m_network_button("Network",     ICON_FA_NETWORK_WIRED),
-  // m_snapshots_button("Snapshots", ICON_FA_CLOCK_ROTATE_LEFT),
   m_system_button("System",       ICON_FA_MICROCHIP),
+  m_snapshots_button("Snapshots", ICON_FA_CLOCK_ROTATE_LEFT),
   m_about_button("About",         ICON_FA_CIRCLE_INFO)
 {
     m_had_focus_last_frame = false;
@@ -940,7 +945,7 @@ MainMenuScene::MainMenuScene()
     m_tabs.push_back(&m_display_button);
     m_tabs.push_back(&m_audio_button);
     m_tabs.push_back(&m_network_button);
-    // m_tabs.push_back(&m_snapshots_button);
+    m_tabs.push_back(&m_snapshots_button);
     m_tabs.push_back(&m_system_button);
     m_tabs.push_back(&m_about_button);
 
@@ -949,7 +954,7 @@ MainMenuScene::MainMenuScene()
     m_views.push_back(&m_display_view);
     m_views.push_back(&m_audio_view);
     m_views.push_back(&m_network_view);
-    // m_views.push_back(&m_snapshots_view);
+    m_views.push_back(&m_snapshots_view);
     m_views.push_back(&m_system_view);
     m_views.push_back(&m_about_view);
 
@@ -977,14 +982,17 @@ void MainMenuScene::ShowNetwork()
 {
     SetNextViewIndexWithFocus(4);
 }
-// void MainMenuScene::showSnapshots() { SetNextViewIndexWithFocus(5); }
-void MainMenuScene::ShowSystem()
+void MainMenuScene::showSnapshots()
 {
     SetNextViewIndexWithFocus(5);
 }
-void MainMenuScene::ShowAbout()
+void MainMenuScene::ShowSystem()
 {
     SetNextViewIndexWithFocus(6);
+}
+void MainMenuScene::ShowAbout()
+{
+    SetNextViewIndexWithFocus(7);
 }
 
 void MainMenuScene::SetNextViewIndexWithFocus(int i)

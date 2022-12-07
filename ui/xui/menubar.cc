@@ -101,6 +101,7 @@ void ShowMainMenu()
             if (ImGui::MenuItem(" Display")) g_main_menu.ShowDisplay();
             if (ImGui::MenuItem(" Audio")) g_main_menu.ShowAudio();
             if (ImGui::MenuItem(" Network")) g_main_menu.ShowNetwork();
+            if (ImGui::MenuItem(" Snapshots")) g_main_menu.showSnapshots();
             if (ImGui::MenuItem(" System")) g_main_menu.ShowSystem();
 
             ImGui::Separator();
