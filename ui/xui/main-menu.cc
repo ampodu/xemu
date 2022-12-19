@@ -1011,6 +1011,13 @@ void MainMenuScene::Hide()
     m_animation.EaseOut();
 }
 
+void MainMenuScene::HideCursor()
+{
+    if (!ImGui::IsWindowFocused(g_config.general.last_viewed_menu_index)) {
+        ImGui::SetMouseCursor(ImGuiMouseCursor_None);
+    }
+}
+
 bool MainMenuScene::IsAnimating()
 {
     return m_animation.IsAnimating();
