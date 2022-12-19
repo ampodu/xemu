@@ -1013,9 +1013,7 @@ void MainMenuScene::Hide()
 
 void MainMenuScene::HideCursor()
 {
-    if (!ImGui::IsWindowFocused(g_config.general.last_viewed_menu_index)) {
-        ImGui::SetMouseCursor(ImGuiMouseCursor_None);
-    }
+    ImGui::SetMouseCursor(ImGuiMouseCursor_None);
 }
 
 bool MainMenuScene::IsAnimating()

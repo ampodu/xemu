@@ -248,10 +248,13 @@ void xemu_hud_render(void)
             ShowMainMenu();
             ImGui::PopStyleColor();
         } else {
+            //Hide cursor when menubar dissolves.
+            MainMenuScene scene;
+            scene.HideCursor();
             g_main_menu_height = 0;
         }
     }
-
+        
     if (!ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow) &&
         !g_scene_mgr.IsDisplayingScene()) {
 

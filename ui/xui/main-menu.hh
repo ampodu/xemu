@@ -180,7 +180,7 @@ public:
     void SetNextViewIndexWithFocus(int i);
     void Show() override;
     void Hide() override;
-    void HideCursor() override;
+    void HideCursor();
     bool IsAnimating() override;
     void SetNextViewIndex(int i);
     void HandleInput();
