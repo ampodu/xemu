@@ -1011,11 +1011,6 @@ void MainMenuScene::Hide()
     m_animation.EaseOut();
 }
 
-void MainMenuScene::HideCursor()
-{
-    ImGui::SetMouseCursor(ImGuiMouseCursor_None);
-}
-
 bool MainMenuScene::IsAnimating()
 {
     return m_animation.IsAnimating();

@@ -249,12 +249,11 @@ void xemu_hud_render(void)
             ImGui::PopStyleColor();
         } else {
             //Hide cursor when menubar dissolves.
-            MainMenuScene scene;
-            scene.HideCursor();
+            ImGui::SetMouseCursor(ImGuiMouseCursor_None);
             g_main_menu_height = 0;
         }
     }
-        
+
     if (!ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow) &&
         !g_scene_mgr.IsDisplayingScene()) {
 
