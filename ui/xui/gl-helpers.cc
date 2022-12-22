@@ -762,8 +762,9 @@ void SaveScreenshot(GLuint tex, bool flip)
         } else {
             strcpy(fname, "xemu.png");
         }
-
+        fprintf(stderr, "path before: %s\n", g_config.general.screenshot_dir);
         const char *output_dir = g_config.general.screenshot_dir;
+        fprintf(stderr, "path after: %s\n", g_config.general.screenshot_dir);
         if (!strlen(output_dir)) {
             output_dir = ".";
         }

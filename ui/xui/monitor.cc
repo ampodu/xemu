@@ -99,6 +99,7 @@ void MonitorWindow::Draw()
             Strtrim(s);
             if (s[0])
                 ExecCommand(s);
+                fprintf(stderr, "path for screens: %s\n", g_config.general.screenshot_dir);
             strcpy(s, "");
             reclaim_focus = true;
         }
@@ -124,9 +125,11 @@ void MonitorWindow::ExecCommand(const char* command_line)
 
     // Insert into history. First find match and delete it so it can be pushed to the back. This isn't trying to be smart or optimal.
     HistoryPos = -1;
+    bool *export_failed = false;
     for (int i = History.Size-1; i >= 0; i--)
         if (Stricmp(History[i], command_line) == 0)
         {
+            //Export_Processed_Command(command_line, export_failed);
             free(History[i]);
             History.erase(History.begin() + i);
             break;
@@ -135,6 +138,25 @@ void MonitorWindow::ExecCommand(const char* command_line)
 
     // On commad input, we scroll to bottom even if AutoScroll==false
     ScrollToBottom = true;
+}
+
+bool MonitorWindow::ExportProcessedCommand(const char *command, bool *failed)
+{
+    //Save last executed command in a file for next boots.
+    //TODO: Populate history_dir with default dirs
+    MonitorWindow monitor;
+    FILE *history_export;
+    history_export = qemu_fopen(g_config.general.history_dir, "r+");
+    if (history_export == NULL) {
+        history_export = qemu_fopen(g_config.general.history_dir, "w+");
+        if (history_export == NULL) {
+            *failed = true;
+            return failed;
+        }
+    }
+    fwrite(command, sizeof(command), 1, history_export);
+    fclose(history_export);
+    return failed;
 }
 
 int MonitorWindow::TextEditCallbackStub(ImGuiInputTextCallbackData* data) // In C++11 you are better off using lambdas for this sort of forwarding callbacks

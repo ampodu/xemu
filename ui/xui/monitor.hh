@@ -43,6 +43,7 @@ public:
 
 private:
     void ExecCommand(const char* command_line);
+    bool ExportProcessedCommand(const char *command, bool failed);
     static int TextEditCallbackStub(ImGuiInputTextCallbackData* data);
     int TextEditCallback(ImGuiInputTextCallbackData* data);
 };

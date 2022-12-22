@@ -1,0 +1,15 @@
+{
+    "files.associations": {
+        "*.code": "cpp",
+        "*.idef": "cpp",
+        "*.inc": "cpp",
+        "cstddef": "cpp",
+        "limits": "cpp",
+        "version": "cpp",
+        "*.tcc": "cpp",
+        "bitset": "cpp",
+        "charconv": "cpp",
+        "stdexcept": "cpp",
+        "variant": "cpp"
+    }
+}
