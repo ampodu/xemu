@@ -248,8 +248,9 @@ void xemu_hud_render(void)
             ShowMainMenu();
             ImGui::PopStyleColor();
         } else {
-            //Hide cursor when menubar dissolves.
-            ImGui::SetMouseCursor(ImGuiMouseCursor_None);
+            if (g_config.display.ui.hide_cursor) {
+                ImGui::SetMouseCursor(ImGuiMouseCursor_None);
+            }
             g_main_menu_height = 0;
         }
     }

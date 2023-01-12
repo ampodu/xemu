@@ -311,6 +311,9 @@ void MainMenuDisplayView::Draw()
     SectionTitle("Interface");
     Toggle("Show main menu bar", &g_config.display.ui.show_menubar,
            "Show main menu bar when mouse is activated");
+    Toggle("Hide mouse cursor", &g_config.display.ui.hide_cursor,
+            "Hide the cursor when menubar disappears.");
+    
 
     int ui_scale_idx;
     if (g_config.display.ui.auto_scale) {
