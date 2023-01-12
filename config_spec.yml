@@ -127,7 +127,7 @@ display:
       default: true
     hide_cursor:
       type: bool
-      default: false
+      default: true
     use_animations:
       type: bool
       default: true

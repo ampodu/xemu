@@ -248,7 +248,7 @@ void xemu_hud_render(void)
             ShowMainMenu();
             ImGui::PopStyleColor();
         } else {
-            if (g_config.display.ui.hide_cursor) {
+            if (g_config.display.ui.hide_cursor && !g_scene_mgr.IsDisplayingScene()) {
                 ImGui::SetMouseCursor(ImGuiMouseCursor_None);
             }
             g_main_menu_height = 0;
